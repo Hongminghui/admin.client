@@ -1,0 +1,15 @@
+.userModifyModal {
+  .ant-modal-content {
+    width: 400px;
+  }
+
+  .area {
+    display: flex;
+    align-items: center;
+
+    .label {
+      width: 59px;
+      text-align: right;
+    }
+  }
+}

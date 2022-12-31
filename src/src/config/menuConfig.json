@@ -1,0 +1,56 @@
+[
+    {
+        "key": 3,
+        "label": "数据分析",
+        "children": [
+            { 
+                "key": 301,
+                "label": "总览",
+                "id": "overview",
+                "href": "/dataAnalysis/overview"
+            },
+            { 
+                "key": 302,
+                "label": "成绩展示",
+                "id": "gradesShow",
+                "href": "/dataAnalysis/gradesShow"
+            }
+        ]
+    },
+    {
+        "key": 2,
+        "label": "数据中心",
+        "children": [
+            { 
+                "key": 201,
+                "label": "学生数据导入",
+                "id": "userList",
+                "href": "/dataCenter/studentList"
+            }
+        ]
+    },
+    {
+        "key": 1,
+        "label": "系统管理",
+        "children": [
+            { 
+                "key": 101,
+                "label": "用户列表",
+                "id": "userList",
+                "href": "/systemManager/userList"
+            },
+            { 
+                "key": 102,
+                "label": "功能权限",
+                "id": "authSetting",
+                "href": "/systemManager/authSetting"
+            },
+            { 
+                "key": 103,
+                "label": "角色管理",
+                "id": "roleManager",
+                "href": "/systemManager/roleManager"
+            }
+        ]
+    }
+]

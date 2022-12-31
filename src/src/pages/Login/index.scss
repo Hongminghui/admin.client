@@ -1,0 +1,45 @@
+.page-login {
+    height: 100vh;
+    overflow: hidden;
+    background: url(../../../asset/images/login.jpeg) 0 / cover no-repeat;
+
+    .title {
+        color: #fff;
+        width: 300px;
+        text-align: center;
+        margin: 100px auto;
+        font-size: 30px;
+    }
+
+    .form-wrapper {
+        width: 360px;
+        height: 260px;
+        margin: 200px auto;
+        padding: 50px 40px;
+        overflow: hidden;
+        border-radius: 10px;
+
+
+        filter: blur(8);
+
+        border-radius: 8px;
+
+        background: rgba(255, 255, 255, 0.2);
+        -webkit-backdrop-filter: blur(8px);
+        backdrop-filter: blur(8px);
+        border-radius: 25px;
+
+        #login-form {
+            margin: 10px auto;
+
+            label {
+                width: 100px;
+                text-align: right;
+            }
+
+            button {
+                margin-top: 30px;
+            }
+        }
+    }
+}
