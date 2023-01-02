@@ -1,6 +1,6 @@
 /*
  * @Date: 2022-12-05 22:13:08
- * @LastEditTime: 2022-12-31 20:20:09
+ * @LastEditTime: 2023-01-01 10:33:08
  * @Description:
  */
 import React, { lazy, useEffect, useState, Suspense } from 'react';
@@ -90,7 +90,7 @@ export default function Home() {
             textAlign: 'center',
           }}
         >
-          小马哥-学生管理系统
+          内容管理系统
         </div>
         <Menu theme="dark" defaultSelectedKeys={[101]} mode="inline" items={menuList} />
       </Sider>

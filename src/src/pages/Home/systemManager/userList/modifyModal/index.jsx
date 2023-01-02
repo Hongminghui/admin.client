@@ -1,104 +1,86 @@
 /*
  * @Date: 2022-12-30 13:57:30
- * @LastEditTime: 2022-12-31 18:43:11
+ * @LastEditTime: 2023-01-02 21:37:07
  * @Description:
  */
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
-import { Modal, Form, Input, Button } from 'antd';
+import { Modal, Input } from 'antd';
 import CitySelect from '../../../../../components/citySelect';
-
+import { postData } from '../../../../../api';
 import './index.scss';
 
 export default function index(props) {
-  let { isShow, hideModifyModal } = props;
-
-  console.log(isShow);
+  const defaultCity = ['上海市', '上海市', '浦东新区'];
+  // 根据selectedUserInfo来判断新增还是修改
+  let { isShow, hideModifyModal, selectedUserInfo, refresh } = props;
   let [isLoading, setIsLoading] = useState(false);
+  let [userInfo, setUserInfo] = useState();
 
-  const handleOk = () => {
+  const handleOk = async () => {
     setIsLoading(true);
-    setTimeout(() => {
+    userInfo.location = userInfo.location || defaultCity.join();
+    const url = selectedUserInfo ? '/user/modifyUser' : '/user/addUser';
+    postData(url, userInfo).then(() => {
       setIsLoading(false);
-    }, 2000);
+      hideModifyModal();
+      refresh();
+    });
   };
 
-  const handleCancel = () => {
-    hideModifyModal();
-    console.log('Clicked cancel button');
-  };
-
-  const onFinish = (values) => {
-    console.log('Success:', values);
-    setIsLoading(true);
-  };
-
-  const onFinishFailed = (errorInfo) => {
-    console.log('Failed:', errorInfo);
-  };
-
-  const handleCityChange = (value) => {
+  const handleFormChange = (type, value) => {
     console.log({ value });
+    setUserInfo({
+      ...userInfo,
+      [type]: value,
+    });
   };
+
+  console.log({ userInfo });
+
+  useEffect(() => {
+    setUserInfo(selectedUserInfo);
+  }, [selectedUserInfo]);
 
   return (
     <Modal
-      title="新增用户"
+      title={selectedUserInfo ? '修改用户' : '新增用户'}
       open={isShow}
       onOk={handleOk}
+      onCancel={hideModifyModal}
       wrapClassName="userModifyModal"
       width={400}
       centered
-      footer={[
-        <Button key="back" onClick={handleCancel}>
-          取消
-        </Button>,
-        <Button key="submit" htmlType="submit" type="primary" loading={isLoading} onClick={handleOk}>
-          保存
-        </Button>,
-      ]}
+      confirmLoading={isLoading}
+      okText="保存"
+      cancelText="取消"
     >
-      <Form
-        name="userInfo"
-        labelCol={{ span: 4 }}
-        wrapperCol={{ span: 18 }}
-        initialValues={{
-          remember: true,
-        }}
-        onFinish={onFinish}
-        onFinishFailed={onFinishFailed}
-        autoComplete="off"
-      >
-        <Form.Item
-          label="姓名"
-          name="username"
-          rules={[
-            {
-              required: true,
-              message: '请输入姓名!',
-            },
-          ]}
-        >
-          <Input />
-        </Form.Item>
-
-        <Form.Item
-          label="邮箱"
-          name="password"
-          rules={[
-            {
-              required: true,
-              message: '请输入邮箱!',
-            },
-          ]}
-        >
-          <Input type="email" />
-        </Form.Item>
-      </Form>
-      <div className="area">
-        <span className="label">地址&nbsp;:&nbsp;&nbsp;</span>
-        <CitySelect change={handleCityChange} width="264px" value={['36', '3602', '360281']} />
+      <div className="wrapper">
+        <div className="userNameArea form-item">
+          <label htmlFor="nameInput">姓名&nbsp;:&nbsp;&nbsp;</label>
+          <Input
+            id="nameInput"
+            value={userInfo?.userName}
+            onChange={(e) => handleFormChange('userName', e.target.value)}
+          />
+        </div>
+        <div className="emailArea form-item">
+          <label htmlFor="emailInput">邮箱&nbsp;:&nbsp;&nbsp;</label>
+          <Input
+            id="emailInput"
+            value={userInfo?.email}
+            onChange={(e) => handleFormChange('email', e.target.value)}
+          />
+        </div>
+        <div className="cityArea form-item">
+          <label>地址&nbsp;:&nbsp;&nbsp;</label>
+          <CitySelect
+            handleChange={(value) => handleFormChange('location', value.join())}
+            width="220px"
+            city={userInfo?.location?.split(',') || defaultCity}
+          />
+        </div>
       </div>
     </Modal>
   );

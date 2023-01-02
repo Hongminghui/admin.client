@@ -1,15 +1,27 @@
 .userModifyModal {
   .ant-modal-content {
-    width: 400px;
+    width: 350px;
   }
 
-  .area {
-    display: flex;
-    align-items: center;
+  .wrapper {
+    margin: 20px 0;
+  }
 
-    .label {
-      width: 59px;
-      text-align: right;
+  .form-item {
+    margin: 12px;
+
+    label {
+      width: 60px;
+
+      &::before {
+        content: '*';
+        color: #f00;
+      }
+    }
+
+    input {
+      width: 220px;
     }
   }
+
 }

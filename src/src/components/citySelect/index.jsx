@@ -16,6 +16,7 @@ export default function index(props) {
       style={{ width }}
       value={city}
       allowClear={false}
+      fieldNames={{ label: 'label', value: 'label' }}
     />
   );
 }

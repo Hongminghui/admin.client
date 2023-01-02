@@ -1,6 +1,6 @@
 /*
  * @Date: 2022-12-22 22:08:51
- * @LastEditTime: 2022-12-31 20:00:09
+ * @LastEditTime: 2023-01-02 21:43:41
  * @Description:
  */
 import React, { useEffect, useState } from 'react';
@@ -15,21 +15,21 @@ import ModifyModal from './modifyModal';
 import './index.scss';
 
 export default function UserList() {
-  console.log('用户列表');
-
   let [userList, setUserList] = useState([]);
 
   const [isShow, setIsShow] = useState(false);
+  const [selectedUserInfo, setSelectedUserInfo] = useState();
 
   const columns = [
-    { title: '用户名', dataIndex: 'userName', key: 'userName' },
-    { title: '邮箱', dataIndex: 'email', key: 'email' },
+    { title: '用户名', dataIndex: 'userName', key: 'userName', width: 70 },
+    { title: '邮箱', dataIndex: 'email', key: 'email', width: 120 },
     { title: '地址', dataIndex: 'location', key: 'location' },
     { title: '加入时间', dataIndex: 'addTime', key: 'addTime' },
     { title: '操作', dataIndex: 'operate', key: 'operate' },
   ];
 
-  const showModifyModal = () => {
+  const showModifyModal = (userInfo) => {
+    setSelectedUserInfo(userInfo);
     setIsShow(true);
   };
 
@@ -38,12 +38,10 @@ export default function UserList() {
   };
 
   const showDeleteModal = () => {
-    console.log('delete');
   };
 
   async function getUserList() {
     let data = await getData('/user/userList');
-    console.log(data);
     const newData = data.map((item) => (
       {
         ...item,
@@ -52,14 +50,17 @@ export default function UserList() {
         operate: (
           <>
             <Button type="link" className="delete" onClick={() => showDeleteModal()}>删除</Button>
-            <Button type="link" className="modify" onClick={() => showModifyModal(true)}>修改</Button>
+            <Button type="link" className="modify" onClick={() => showModifyModal(item)}>修改</Button>
           </>
         ),
       }
     ));
-    console.log({ newData });
     setUserList(newData);
   }
+
+  const refresh = () => {
+    getUserList();
+  };
 
   useEffect(() => {
     getUserList();
@@ -68,10 +69,15 @@ export default function UserList() {
   return (
     <div className="pageUserList">
       <div className="header">
-        <Button type="primary" size="middle" onClick={() => showModifyModal(false)}>新增</Button>
+        <Button type="primary" size="middle" onClick={() => showModifyModal()}>新增</Button>
       </div>
       <Table dataSource={userList} columns={columns} size="small" bordered />
-      <ModifyModal isShow={isShow} hideModifyModal={hideModifyModal} />
+      <ModifyModal
+        isShow={isShow}
+        hideModifyModal={hideModifyModal}
+        selectedUserInfo={selectedUserInfo}
+        refresh={refresh}
+      />
     </div>
   );
 }
